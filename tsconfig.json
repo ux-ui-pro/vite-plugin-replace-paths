@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "Node16",
+    "module": "ESNext", // Change from Node16 to ESNext
     "moduleResolution": "node16",
     "target": "ESNext",
     "declaration": true,
