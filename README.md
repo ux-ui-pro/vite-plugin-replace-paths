@@ -43,6 +43,7 @@ export default defineConfig({
 |  `filter`   | `function` | `() => true` | A callback function to filter files based on their names. Only files that pass the filter will have their paths replaced.                         |
 | `pathRegex` | `function` | `undefined`  | A function that takes the original file name and returns a custom regular expression for path matching. If not provided, a default regex is used. |
 |  `verbose`  | `boolean`  |   `false`    | Enables verbose logging to provide details about which files are being processed and replaced.                                                    |
+<br>
 
 **Additional Notes:**
 - **Path Matching:** The `pathRegex` option allows for custom regex patterns to match specific paths in the HTML. If not specified, a default regex based on `sourceDir` and file names will be used.
