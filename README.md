@@ -12,6 +12,25 @@
 </div>
 <br>
 
+&#10148; **How Does the Plugin Work?**
+
+**vite-plugin-replace-paths** is a Vite build plugin that automatically updates resource paths (e.g., images) in compiled HTML files. This is especially useful when files from the source directory (`sourceDir`) are moved to the output directory (`outputDir`) and renamed (e.g., with added hashes).
+
+After the build process, the plugin will find and replace all paths in HTML files. For example:
+
+Before Build:
+```html
+<img src="/src/assets/images/jpg/bg_1024w.jpg" alt="Background">
+<img src="/src/assets/images/jpg/bg_1280w.jpg" alt="Background">
+```
+
+After Build:
+```html
+<img src="/dist/assets/bg_1024w-CcF7drgT.jpg" alt="Background">
+<img src="/dist/assets/bg_1280w-B89I5yDh.jpg" alt="Background">
+```
+<br>
+
 &#10148; **Install**
 ```console
 $ yarn add vite-plugin-replace-paths
@@ -32,6 +51,25 @@ export default defineConfig({
   ],
 });
 ```
+
+If you're working in development mode (process.env.NODE_ENV === 'development'), it is recommended to include the following snippet in your main.ts file:
+
+```javascript
+if (process.env.NODE_ENV === 'development') {
+  const images = import.meta.glob('./assets/images/**/*.{jpg,webp,avif,svg,png}', { eager: true });
+
+  Object.entries(images).forEach(([path, module]) => {
+    console.log('Image processed:', path, module);
+  });
+}
+```
+
+This snippet ensures that all image files from the specified directory (`./assets/images/`) are preloaded during development. By using `import.meta.glob` with the `eager: true` option.
+
+Customization: Adjust the import.meta.glob pattern to match the directory and file types specific to your project.
+
+Production Mode: This snippet is only executed in development mode and does not affect the production build, ensuring minimal performance overhead.
+
 <br>
 
 &#10148; **Options**
