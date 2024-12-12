@@ -1,5 +1,4 @@
-import type { Plugin as RollupPlugin } from 'rollup';
-import type { RollupOutput, OutputAsset } from 'rollup';
+import type { Plugin as RollupPlugin, RollupOutput, OutputAsset } from 'rollup';
 import * as path from 'path';
 
 interface VitePlugin extends RollupPlugin {
@@ -7,25 +6,13 @@ interface VitePlugin extends RollupPlugin {
 }
 
 interface ReplacePathsPluginOptions {
-  sourceDir?: string;
-  outputDir?: string;
-  filter?: (fileName: string) => boolean;
-  pathRegex?: (originalFileName: string) => RegExp;
   verbose?: boolean;
 }
 
 class ReplacePathsPlugin {
-  private readonly sourceDir: string;
-  private readonly outputDir: string;
-  private readonly filter: (fileName: string) => boolean;
-  private readonly pathRegex?: (originalFileName: string) => RegExp;
   private readonly verbose: boolean;
 
   constructor(options: ReplacePathsPluginOptions = {}) {
-    this.sourceDir = options.sourceDir || 'source/';
-    this.outputDir = options.outputDir || 'output/';
-    this.filter = options.filter || (() => true);
-    this.pathRegex = options.pathRegex;
     this.verbose = options.verbose || false;
   }
 
@@ -37,7 +24,7 @@ class ReplacePathsPlugin {
     };
   }
 
-  private async generateBundle(_: unknown, bundle: RollupOutput): Promise<void> {
+  private generateBundle(_: unknown, bundle: RollupOutput): void {
     const htmlFile = Object.keys(bundle).find((fileName) => fileName.endsWith('.html'));
 
     if (!htmlFile) return;
@@ -49,13 +36,11 @@ class ReplacePathsPlugin {
     let htmlContent = asset.source;
 
     for (const [_, fileData] of Object.entries(bundle)) {
-      if (this.isAsset(fileData) && fileData.fileName.startsWith(this.outputDir) && this.filter(fileData.fileName)) {
+      if (this.isAsset(fileData) && this.isOutputFile(fileData)) {
         const originalFileName = path.basename(fileData.name || '');
         const escapedFileName = this.escapeRegExp(originalFileName);
 
-        const regex = this.pathRegex
-            ? this.pathRegex(originalFileName)
-            : new RegExp(`${this.escapeRegExp(this.sourceDir)}[^"']*${escapedFileName}`, 'g');
+        const regex = new RegExp(`[^"']*${escapedFileName}`, 'g');
 
         if (this.verbose) {
           console.log(`Replacing paths for file: ${originalFileName}`);
@@ -75,6 +60,10 @@ class ReplacePathsPlugin {
         'type' in fileData &&
         (fileData as OutputAsset).type === 'asset'
     );
+  }
+
+  private isOutputFile(fileData: OutputAsset): boolean {
+    return fileData.fileName.startsWith('assets/');
   }
 
   private escapeRegExp(string: string): string {

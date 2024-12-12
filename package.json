@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-replace-paths",
-  "version": "0.0.2",
-  "description": "A Vite plugin designed to optimize build output by replacing file paths in HTML assets. This plugin scans the generated HTML, matches file paths based on configurable regex patterns, and replaces them with updated paths from the build output. It supports custom filters, verbose logging, and flexible source/output directory configurations.",
+  "version": "0.0.3",
+  "description": "A Vite plugin designed to replace file paths in HTML assets. This plugin scans the generated HTML, identifies file paths, and replaces them with updated paths from the build output.",
   "author": "ux-ui.pro",
   "license": "MIT",
   "repository": {
