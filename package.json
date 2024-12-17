@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-replace-paths",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Vite plugin designed to replace file paths in HTML assets. This plugin scans the generated HTML, identifies file paths, and replaces them with updated paths from the build output.",
   "author": "ux-ui.pro",
   "license": "MIT",
@@ -28,24 +28,24 @@
   "source": "src/index.ts",
   "type": "module",
   "devDependencies": {
-    "@eslint/js": "9.16.0",
-    "@parcel/packager-ts": "2.13.2",
-    "@parcel/transformer-typescript-types": "2.13.2",
-    "@types/node": "^22.10.2",
-    "@typescript-eslint/eslint-plugin": "8.18.0",
-    "@typescript-eslint/parser": "8.18.0",
-    "eslint": "9.16.0",
+    "@eslint/js": "9.17.0",
+    "@parcel/packager-ts": "2.13.3",
+    "@parcel/transformer-typescript-types": "2.13.3",
+    "@types/node": "22.10.2",
+    "@typescript-eslint/eslint-plugin": "8.18.1",
+    "@typescript-eslint/parser": "8.18.1",
+    "eslint": "9.17.0",
     "eslint-config-prettier": "9.1.0",
+    "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import": "2.31.0",
-    "globals": "15.11.0",
-    "parcel": "2.13.2",
+    "globals": "15.13.0",
+    "parcel": "2.13.3",
     "prettier": "3.4.2",
-    "rollup": "^4.28.1",
-    "typescript": "5.7.2",
-    "vite": "^6.0.3"
+    "rollup": "4.28.1",
+    "typescript": "5.7.2"
   },
   "peerDependencies": {
-    "vite": "^6.0.0"
+    "vite": "6.0.0"
   },
   "keywords": [
     "vite",

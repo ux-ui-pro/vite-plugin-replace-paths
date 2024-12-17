@@ -16,19 +16,25 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       parser: typescriptParser,
+      parserOptions: {
+        project: './tsconfig.json',
+      },
       globals: {
         ...globals.browser,
         ...globals.es2022,
-      },
-      parserOptions: {
-        project: './tsconfig.json',
-        allowJs: true,
       },
     },
     plugins: {
       '@typescript-eslint': typescriptPlugin,
       eslint: eslintPlugin,
       import: importPlugin,
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+      },
     },
     rules: {
       ...eslintPlugin.configs.recommended.rules,

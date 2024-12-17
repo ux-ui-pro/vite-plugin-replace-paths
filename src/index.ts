@@ -1,4 +1,4 @@
-import type { Plugin as RollupPlugin, RollupOutput, OutputAsset } from 'rollup';
+import type { Plugin as RollupPlugin, OutputAsset, OutputBundle } from 'rollup';
 import * as path from 'path';
 
 interface VitePlugin extends RollupPlugin {
@@ -24,7 +24,7 @@ class ReplacePathsPlugin {
     };
   }
 
-  private generateBundle(_: unknown, bundle: RollupOutput): void {
+  private generateBundle(_: unknown, bundle: OutputBundle): void {
     const htmlFile = Object.keys(bundle).find((fileName) => fileName.endsWith('.html'));
 
     if (!htmlFile) return;
@@ -35,7 +35,7 @@ class ReplacePathsPlugin {
 
     let htmlContent = asset.source;
 
-    for (const [_, fileData] of Object.entries(bundle)) {
+    for (const [, fileData] of Object.entries(bundle)) {
       if (this.isAsset(fileData) && this.isOutputFile(fileData)) {
         const originalFileName = path.basename(fileData.name || '');
         const escapedFileName = this.escapeRegExp(originalFileName);
@@ -55,10 +55,10 @@ class ReplacePathsPlugin {
 
   private isAsset(fileData: unknown): fileData is OutputAsset {
     return (
-        typeof fileData === 'object' &&
-        fileData !== null &&
-        'type' in fileData &&
-        (fileData as OutputAsset).type === 'asset'
+      typeof fileData === 'object' &&
+      fileData !== null &&
+      'type' in fileData &&
+      (fileData as OutputAsset).type === 'asset'
     );
   }
 
@@ -73,6 +73,5 @@ class ReplacePathsPlugin {
 
 export function replacePathsPlugin(options: ReplacePathsPluginOptions = {}): VitePlugin {
   const pluginInstance = new ReplacePathsPlugin(options);
-
   return pluginInstance.apply();
 }

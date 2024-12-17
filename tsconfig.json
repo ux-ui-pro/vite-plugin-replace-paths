@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "isolatedModules": true,
     "target": "ESNext",
-    "declaration": true,
-    "sourceMap": true,
+    "module": "ESNext",
+    "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node"],
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*"]
 }

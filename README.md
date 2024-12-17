@@ -34,7 +34,7 @@ $ yarn add vite-plugin-replace-paths
 <br>
 
 &#10148; **Usage**
-```javascript
+```typescript
 import { replacePathsPlugin } from 'vite-plugin-replace-paths';
 
 export default defineConfig({
@@ -47,14 +47,19 @@ export default defineConfig({
 ```
 
 This snippet ensures that all image files are preloaded during development by utilizing import.meta.glob with the eager: true option. You can customize the pattern in import.meta.glob to match the specific directory and file types relevant to your project. Note that this snippet is executed only in development mode.
-```javascript
+```typescript
 // main.ts
-if (process.env.NODE_ENV === 'development') {
-  const images = import.meta.glob('./assets/images/**/*.{jpg,webp,avif,svg,png}', { eager: true });
+if (import.meta.env.DEV) {
+  const images = import.meta.glob('./assets/images/**/*.{jpg,webp,avif,svg,png}', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  }) as Record<string, string>;
 
-  Object.entries(images).forEach(([path, module]) => {
-    console.log('Image processed:', path, module);
-  });
+  for (const [path, url] of Object.entries(images)) {
+    void path;
+    void url;
+  }
 }
 ```
 <br>
@@ -64,6 +69,7 @@ if (process.env.NODE_ENV === 'development') {
 |   Option    |    Type    |   Default    | Description                                                                                                                                       |
 |:-----------:|:----------:|:------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------|
 |  `verbose`  | `boolean`  |   `false`    | Enables verbose logging to provide details about which files are being processed and replaced.                                                    |
+
 <br>
 
 &#10148; **License**
